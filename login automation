@@ -1,0 +1,86 @@
+package org.openqa.selenium.demo;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Demo {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.saucedemo.com/v1/");
+		driver.manage().window().maximize();
+		
+		driver.findElement(By.id("user-name")).sendKeys("standard_user");
+		driver.findElement(By.id("password")).sendKeys("secret_sauce"); 
+		
+		driver.findElement(By.id("login-button")).click();
+		Thread.sleep(2000);
+		
+		driver.findElement(By.className("inventory_item_name")).click();
+		Thread.sleep(2000);
+		
+		driver.navigate().back();
+		Thread.sleep(2000);
+		
+		driver.navigate().forward();
+		Thread.sleep(2000);
+		
+		driver.navigate().back();
+		Thread.sleep(2000);
+		
+		System.out.println("The current url is :"+ driver.getCurrentUrl());
+		
+		String actual_title = driver.getTitle();
+		System.out.println("Title of the page is:"+ actual_title);
+		
+		driver.navigate().back();
+		String expected_title = "Swag Labs";
+		if(actual_title.equals(expected_title)) {
+			System.out.println("Test1 for swaglabs with correct username and password is PASSED");
+		}else {
+			System.out.println("Test Failed");
+		}
+		System.out.println("swag labs page ID:"+driver.getWindowHandle());
+		System.out.println("-------------");
+		
+		driver.navigate().to("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		System.out.println("The current url is :"+ driver.getCurrentUrl());
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+		
+		WebElement usernametextbox = driver.findElement(By.name("username"));
+		usernametextbox.sendKeys("Admin");
+		
+		WebElement passwordtextbox = driver.findElement(By.name("password"));
+		passwordtextbox.sendKeys("admin123");
+		
+		WebElement loginbtn = driver.findElement(By.xpath("//button[@type='submit']"));
+		loginbtn.click();
+		
+		WebElement adminbar = driver.findElement(By.className("oxd-main-menu-item-wrapper"));
+		adminbar.click();
+	
+		Thread.sleep(2000);
+		
+		WebElement useracc = driver.findElement(By.className("oxd-userdropdown-tab"));
+		useracc.click();
+		
+		String at = driver.getTitle();
+		System.out.println("Title of the page is:"+ at);
+		String et = "OrangeHRM";
+		if(at.equals(et)) {
+			System.out.println("Test2 for the OrangeHRM login page is successfull");
+		}else {
+			System.out.println("Test Failed");
+		}
+		System.out.println("OrangeHRM page ID:"+driver.getWindowHandle());
+		driver.close();
+	    
+		
+		}
+
+}
