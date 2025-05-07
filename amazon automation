@@ -1,0 +1,47 @@
+package org.openqa.selenium.amazon;
+
+
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class amazon {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		
+		driver.get("https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=748926027055&hvpos=&hvnetw=g&hvrand=6479195938347999451&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2417699&gad_source=1");
+		
+		WebElement searchbox = driver.findElement(By.id("twotabsearchtextbox"));
+		searchbox.sendKeys("smart phone under 7000");
+		searchbox.submit(); 
+		String mainpage = driver.getWindowHandle();
+		System.out.println("main page: "+ mainpage);
+		System.out.println("main page title:"+ driver.getTitle());
+		
+		WebElement selectphone = driver.findElement(By.linkText("Samsung Galaxy F05 (Twilight Blue, 64 GB) (4 GB RAM)"));
+		selectphone.click();
+		Set<String> allpages = driver.getWindowHandles();
+		
+		for(String page : allpages) {
+			if(!page.equals(mainpage)) {
+				driver.switchTo().window(page);
+				break;
+			}
+		}
+		System.out.println("current page title:"+ driver.getTitle());
+		driver.findElement(By.xpath("/html/body/div[2]/div/div/div[5]/div[1]/div[4]/div/div[1]/div/div[1]/div/div/div[2]/div/div[2]/div/form/div/div/div[38]/div[1]/span/span/span/input")).click();
+		System.out.println("Test for adding products to the cart in amazon is successfull");
+		
+		driver.quit();
+
+		
+	}
+
+}
